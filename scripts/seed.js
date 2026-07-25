@@ -2,7 +2,10 @@ require('dotenv').config();
 const { Pool } = require('pg');
 
 const connectionString = process.env.DATABASE_URL || 'postgresql://app_user@localhost:5432/CustomerComplaintAnalytics';
-const pool = new Pool({ connectionString });
+const pool = new Pool({
+  connectionString,
+  ssl: connectionString.includes('render.com') ? { rejectUnauthorized: false } : false
+});
 
 const CUSTOMER_NAMES = [
   'Tech Solutions Ltda', 'Mercado Bom Preço', 'Auto Peças Silva',
